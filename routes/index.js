@@ -35,15 +35,52 @@ router.post("/",function(req,res,next){
   
 })
 
-router.get('/index', function(req, res, next) {
+router.get('/index/:page?', function(req, res, next) {
+  var perPage = 4;
+    var page = req.params.page || 1;
+  userModel.find({})
+           .skip((perPage * page) - perPage)
+           .limit(perPage).exec(function(err,data){
+                if(err) throw err;
+          userModel.countDocuments({}).exec((err,count)=>{          
+  res.render('index', { title:'MyPhoneBook',records: data,
+  current: page,
+  pages: Math.ceil(count / perPage) });
+  
+});
+  });
+  
+});
 
-  userobj.exec().then(data=>{
-    console.log(data);
-    res.render('index',{title:'MyPhoneBook',records:data })
-  }).catch(err=>{
-    res.send('Something went wrong try again');
-  })
-}); 
+// router.get('/index', function(req, res, next) {
+//   // var perPage = 1;
+//   // var page = req.params.page || 1;
+//   // userobj.exec().then(data=>{
+//   //   console.log(data);
+//   //   res.render('index',{title:'MyPhoneBook',records:data })
+//   // }).catch(err=>{
+//   //   res.send('Something went wrong try again');
+//   // })
+
+//   var perPage = 1;
+//   var page = req.params.page || 1;
+
+//         userModel.find({})
+//          .skip((perPage * page) - perPage)
+//          .limit(perPage).exec(function(err,data){
+//               if(err) throw err;
+//         userModel.countDocuments({}).exec((err,count)=>{          
+//         res.render('index', { title:'MyPhoneBook',records: data,
+//         current: page,
+//         pages: Math.ceil(count / perPage) });
+
+//         });
+//         });
+// }); 
+
+
 
 
 module.exports = router;
+
+

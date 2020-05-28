@@ -11,7 +11,7 @@
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
-      nav{
+      .navheader{
         background-color: #b39ddb;
         margin-bottom: 2%;
       }
@@ -25,31 +25,41 @@
         background-color: #ede7f6;
         padding: 1%;
         border: 2px solid #e0e0e0 ;
+        z-index: 1;
       }
       .namelist{
         margin:5%;
         position: relative;
+        z-index: 1;
       }
       .floatleft{
         position: relative;
         left: 2%;
       }
       .floatright{
-        position: absolute;
-        right: 5%;
+        position: relative;
+        left: 50%;
       }
       .details{
         padding:3%;
+        display: hidden;
+      }
+      .pagebar{
+        position: relative;
+        left:25%;
       }
       .indetails{
         background-color: #f3e5f5;
         border: 1px solid black;
         padding: 5%;
       }
+      .btn{
+        z-index: -1;
+      }
     </style>
   </head>
   <body>
-    <nav class="navbar">
+    <nav class="navbar navheader">
       <span class="navbar-brand mb-0 h1"><%= title %></span>
     </nav>
     <div id="form" class="container">
@@ -71,9 +81,9 @@
       <%  if(records.length > 0){ %>
       <% records.forEach(function(row){%>
     
-      <div class="namelistdiv"><%= row.firstname %> <%= row.lastname %> <i class="fa fa-caret-down fa-2x" style="float: right;"></i></div>
-        <div class="details">
-          <div class="row">
+      <div class="namelistdiv" ><%= row.firstname %> <%= row.lastname %> <i class="fa fa-caret-down fa-2x caret" id="<%= row.id %>" style="float: right;"></i></div>
+        <div class="details <%= row.id %>" style="display: hidden;">
+          <div class="row" style="display: hidden;">
             <div class="col-md-2">
               <%= row.date.getDate()+1 %>/<%= row.date.getMonth()+1 %>/<%= row.date.getFullYear() %>
             </div>
@@ -100,8 +110,66 @@
      <% } %>
    
     </div>
+
+    <% if (pages > 0) { %>
+      <nav aria-label="Page navigation example">
+      <ul class="pagination pagebar">
+          <% if (current == 1) { %>
+              <li class="disabled page-item"><a class="page-link">First</a></li>
+          <% } else { %>
+              <li><a href="/index/1" class="page-link">First</a></li>
+          <% } %>
+          <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+          <% if (i !== 1) { %>
+              <li class="disabled page-item"><a>...</a></li>
+          <% } %>
+          <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+              <% if (i == current) { %>
+                  <li class="active class="page-item""><a class="page-link"><%= i %></a></li>
+              <% } else { %>
+                  <li><a href="/index/<%= i %>" class="page-link"><%= i %></a></li>
+              <% } %>
+              <% if (i == Number(current) + 4 && i < pages) { %>
+                  <li class="disabled page-item" class="page-link"><a>...</a></li>
+              <% } %>
+          <% } %>
+          <% if (current == pages) { %>
+              <li class="disabled page-item" ><a class="page-link">Last</a></li>
+          <% } else { %>
+              <li><a href="/index/<%= pages %>" class="page-link">Last</a></li>
+          <% } %>
+      </ul>
+    </nav>
+      <% } %>
+
     </div>
-    </div>
-    
-  </body>
+  </div>
+  <script>
+    var flag=true;
+    $(document).ready(function(){
+      $('.details').hide();
+      $(".caret").click(function(target){
+      var x=target.currentTarget.id;
+      $('.'+x).slideToggle("slow");
+      if(flag){
+      $( this ).removeClass( "fa-caret-down" ).addClass( "fa-caret-up");
+      console.log("hjk");
+      flag=false;
+      }
+      else{
+        $( this ).removeClass( "fa-caret-up" ).addClass( "fa-caret-down" ); 
+        console.log("ghjk");
+        flag=true;
+      }
+      });
+    });
+
+    // function caretup(target){
+    //   var x=target.currentTarget.id;
+    //   console.log(target.currentTarget.id);
+    //   $('.'+x).hide("slow");
+    //   $('#'+x).replaceWith( '<i class="fa fa-caret-down fa-2x caret" id="'+x+'" style="float: right;"></i>');
+    // }
+</script>
+</body>
 </html>

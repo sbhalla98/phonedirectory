@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <style>
       nav{
-        background-color: #ede7f6;
+        background-color: #b39ddb;
         margin-bottom: 2%;
       }
       #form{
@@ -21,6 +21,31 @@
         border-radius: 10px;
         padding: 2%;
       }
+      .namelistdiv{
+        background-color: #ede7f6;
+        padding: 1%;
+        border: 2px solid #e0e0e0 ;
+      }
+      .namelist{
+        margin:5%;
+        position: relative;
+      }
+      .floatleft{
+        position: relative;
+        left: 2%;
+      }
+      .floatright{
+        position: absolute;
+        right: 5%;
+      }
+      .details{
+        padding:3%;
+      }
+      .indetails{
+        background-color: #f3e5f5;
+        border: 1px solid black;
+        padding: 5%;
+      }
     </style>
   </head>
   <body>
@@ -28,12 +53,13 @@
       <span class="navbar-brand mb-0 h1"><%= title %></span>
     </nav>
     <div id="form" class="container">
+      <div class="container">
     <form>
       <div class="form-row">
-        <div class="col-md-10">
+        <div class="col-md-11">
           <input type="text" class="form-control" name="name" placeholder="Search by name">
         </div>
-        <div class="col-md-2">
+        <div class="col-md-1" style="text-align: center;">
           <i class="fa fa-search fa-2x"></i>
         </div>
       </div>
@@ -41,29 +67,30 @@
 
 
 
-      <table id="phonedetails" class="table table-striped">
-        <thead>
-        <tr>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Hours</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-        </thead>
-  
-     
+      <div class="namelist">
       <%  if(records.length > 0){ %>
-     <% records.forEach(function(row){%>
-     <tr>
-      <td><%= row.firstname %></td>
-      <td><%= row.lastname %></td>
-      <td><%= row.mobile %></td>
-      <td><%= row.email %></td>
-      <td><a href="/edit/<%= row._id %>" style="color: goldenrod;">Update record</a>
-      <a href="/delete/<%= row._id %>" style="color: red;">delete record</a></td>
-    </tr>
-   
+      <% records.forEach(function(row){%>
+    
+      <div class="namelistdiv"><%= row.firstname %> <%= row.lastname %> <i class="fa fa-caret-down fa-2x" style="float: right;"></i></div>
+        <div class="details">
+          <div class="row">
+            <div class="col-md-2">
+              <%= row.date.getDate()+1 %>/<%= row.date.getMonth()+1 %>/<%= row.date.getFullYear() %>
+            </div>
+            <div class="floatright">
+              <a href="/edit/<%= row._id %>" class="btn btn-primary">Edit</a>
+              <a href="/delete/<%= row._id %>" class="btn btn-danger">Remove</a>
+            </div>
+          </div>
+          <div class="row indetails container" style="margin-top: 10%;">
+            <div class="col-md-6">
+              <%= row.email %>
+            </div>
+            <div class="col-md-6">
+              <%= row.mobile %>
+            </div>
+          </div>
+        </div>
      <% }) %> 
      <% } else {%> 
    
@@ -71,8 +98,9 @@
           <span>No records Found :(</span>
         </div>
      <% } %>
-    </table>
-
+   
+    </div>
+    </div>
     </div>
     
   </body>

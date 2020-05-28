@@ -19,7 +19,7 @@ router.post("/",function(req,res,next){
   var useremail = req.body.email;
   var userdate = req.body.date;
   var usermobile = req.body.phone;
-
+  console.log(req.body.email);
   var user = new userModel({
       firstname:userFirstname,
       lastname:userlastname,
@@ -38,7 +38,7 @@ router.post("/",function(req,res,next){
 router.get('/index/:page?', function(req, res, next) {
   var perPage = 4;
     var page = req.params.page || 1;
-  userModel.find({})
+  userModel.find({}).sort({firstname:1})
            .skip((perPage * page) - perPage)
            .limit(perPage).exec(function(err,data){
                 if(err) throw err;

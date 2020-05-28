@@ -99,10 +99,16 @@
           </div>
           <div class="row indetails" style="margin-top: 10%;">
             <div class="col-md-7">
-              <i class="fa fa-envelope fa-1x"></i> <span> <%= row.email %></span>
+              <%  if(row.email.length > 0){ %>
+                <% row.email.forEach(function(item){%>
+              <div><i class="fa fa-envelope fa-1x"></i> <span> <%= item %></span></div>
+              <% })} %> 
             </div>
             <div class="col-md-5">
-              <i class="fa fa-phone fa-1x"></i> <span> <%= row.mobile %></span>
+              <%  if(row.mobile.length > 0){ %>
+                <% row.mobile.forEach(function(item){%>
+              <div><i class="fa fa-phone fa-1x"></i> <span> <%= row.mobile %></span></div>
+              <% })} %> 
             </div>
           </div>
         </div>
@@ -113,6 +119,8 @@
           <span>No records Found :(</span>
         </div>
      <% } %>
+
+    
    
     </div>
 
@@ -146,6 +154,14 @@
       </ul>
     </nav>
       <% } %>
+
+
+      <div class="row">
+        <div class="col-md-11"></div>
+        <div class="col-md-1">
+        <a href="/" style="color: black;"><i class="fa fa-plus-circle fa-2x addcontact" ></i></a>
+        </div>
+      </div>
 
     </div>
   </div>

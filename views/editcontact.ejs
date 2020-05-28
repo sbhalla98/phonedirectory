@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
       nav{
         background-color: #ede7f6;
@@ -51,7 +52,10 @@
         <div class="form-row" id="emailinput">
           <div class="form-group col-md-11">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            <%  if(records.email.length > 0){ %>
+              <% records.email.forEach(function(item){%>
+            <input type="email" class="form-group form-control" id="email" name="email" value="<%= item %>" placeholder="Enter email">
+            <% })} %> 
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addemail"></i>
@@ -60,7 +64,10 @@
         <div class="form-row" id="mobileinput">
           <div class="form-group col-md-11">
             <label for="Phone">Mobile Number</label>
-            <input type="text" class="form-control" id="Phone" name="phone" placeholder="Enter mobile number"> 
+            <%  if(records.mobile.length > 0){ %>
+              <% records.mobile.forEach(function(item){%>
+            <input type="text" class="form-group form-control" id="Phone" name="phone" value="<%= item %>" placeholder="Enter mobile number"> 
+            <% })} %> 
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addmobile"></i>

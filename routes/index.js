@@ -1,6 +1,14 @@
 var express = require('express');
 var router = express.Router();
 
+/*to validate things*/
+const bodyParser = require("body-parser");
+const { check, validationResult } = require('express-validator');
+const {matchedData,sanitize}=require("express-validator");
+
+
+var jsonParser = bodyParser.json();
+var urlencodedParser = bodyParser.urlencoded({extended:false});
 /* require modules */
 var userModel = require("../modules/contactdetails");
 var userobj = userModel.find({});
@@ -8,12 +16,51 @@ var userobj = userModel.find({});
 
 /* GET home page. */
 
-router.get("/", function(req, res, next) {
-  res.render('addcontact', { title: 'MyPhoneBook' });
+router.get('/autocomplete/', function(req, res, next) {
+  console.log("we are here");
+    var regex= new RegExp(req.query["term"],'i');
+   
+    var userFilter =userModel.find({firstname:regex},{'firstname':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
+    userFilter.exec(function(err,data){
+  
+      
+  var result=[];
+  if(!err){
+    console.log(data);
+     if(data && data.length && data.length>0){
+       data.forEach(user=>{
+         let obj={
+           id:user._id,
+           label: user.firstname
+         };
+         result.push(obj);
+       });
+  
+     }
+   
+     res.jsonp(result);
+  }
+  
+    });
+  
+  });
+  
+
+router.get("/add", function(req, res, next) {
+  res.render('addcontact', { title: 'MyPhoneBook',error:'' });
 });
 
 
-router.post("/",function(req,res,next){
+router.post("/add",urlencodedParser,[check('email','Please Enter valid Email Address').isEmail(),
+check('phone',"phone number is not correct").isLength({min:10})],
+function(req,res,next){
+  const errors = validationResult(req);
+    if(!errors.isEmpty()){
+    res.render('addcontact',{title:'AddContact',error:errors.mapped()});
+    return;
+    }
+
+
   var userFirstname  =  req.body.firstname;
   var userlastname = req.body.lastname;
   var useremail = req.body.email;
@@ -28,14 +75,14 @@ router.post("/",function(req,res,next){
       mobile:usermobile
   })
   user.save().then(data=>{
-      res.redirect("/index");
+      res.redirect("/");
   }).catch(err=>{
       res.send('Something went wrong try again');
   })
   
 })
 
-router.get('/index/:page?', function(req, res, next) {
+router.get('/:page?', function(req, res, next) {
   var perPage = 4;
     var page = req.params.page || 1;
   userModel.find({}).sort({firstname:1})
@@ -45,7 +92,7 @@ router.get('/index/:page?', function(req, res, next) {
           userModel.countDocuments({}).exec((err,count)=>{          
   res.render('index', { title:'MyPhoneBook',records: data,
   current: page,
-  pages: Math.ceil(count / perPage) });
+  pages: Math.ceil(count / perPage),message:'' });
   
 });
   });
@@ -61,7 +108,7 @@ router.get('/delete/:id',function(req,res,next){
       throw err;
     }
     var string="deleted sucessfiully!!";
-    res.redirect("/index");
+    res.redirect("/");
     });
 });
 
@@ -98,40 +145,9 @@ router.post('/update',function(req,res,next){
       throw err;
     }
     var string="Updated sucessfiully!!";
-    res.redirect("/index");
+    res.redirect("/");
     });
 });
-
-
-
-router.get('/autocomplete/', function(req, res, next) {
-  console.log("we are here");
-    var regex= new RegExp(req.query["term"],'i');
-   
-    var userFilter =userModel.find({firstname:regex},{'firstname':1}).sort({"updated_at":-1}).sort({"created_at":-1}).limit(20);
-    userFilter.exec(function(err,data){
-  
-      console.log(data);
-  var result=[];
-  if(!err){
-    console.log(data);
-     if(data && data.length && data.length>0){
-       data.forEach(user=>{
-         let obj={
-           id:user._id,
-           label: user.firstname
-         };
-         result.push(obj);
-       });
-  
-     }
-   
-     res.jsonp(result);
-  }
-  
-    });
-  
-  });
 
 
 module.exports = router;

@@ -67,6 +67,9 @@
     <nav class="navbar navheader">
       <span class="navbar-brand mb-0 h1"><%= title %></span>
     </nav>
+
+
+    
     <div id="form" class="container">
       <div class="container">
     <form>
@@ -107,7 +110,7 @@
             <div class="col-md-5">
               <%  if(row.mobile.length > 0){ %>
                 <% row.mobile.forEach(function(item){%>
-              <div><i class="fa fa-phone fa-1x"></i> <span> <%= row.mobile %></span></div>
+              <div><i class="fa fa-phone fa-1x"></i> <span> <%= item %></span></div>
               <% })} %> 
             </div>
           </div>
@@ -130,7 +133,7 @@
           <% if (current == 1) { %>
               <li class="disabled page-item"><a class="page-link">First</a></li>
           <% } else { %>
-              <li><a href="/index/1" class="page-link">First</a></li>
+              <li><a href="/1" class="page-link">First</a></li>
           <% } %>
           <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
           <% if (i !== 1) { %>
@@ -140,7 +143,7 @@
               <% if (i == current) { %>
                   <li class="active class="page-item""><a class="page-link"><%= i %></a></li>
               <% } else { %>
-                  <li><a href="/index/<%= i %>" class="page-link"><%= i %></a></li>
+                  <li><a href="/<%= i %>" class="page-link"><%= i %></a></li>
               <% } %>
               <% if (i == Number(current) + 4 && i < pages) { %>
                   <li class="disabled page-item" class="page-link"><a>...</a></li>
@@ -149,7 +152,7 @@
           <% if (current == pages) { %>
               <li class="disabled page-item" ><a class="page-link">Last</a></li>
           <% } else { %>
-              <li><a href="/index/<%= pages %>" class="page-link">Last</a></li>
+              <li><a href="/<%= pages %>" class="page-link">Last</a></li>
           <% } %>
       </ul>
     </nav>
@@ -159,7 +162,7 @@
       <div class="row">
         <div class="col-md-11"></div>
         <div class="col-md-1">
-        <a href="/" style="color: black;"><i class="fa fa-plus-circle fa-2x addcontact" ></i></a>
+        <a href="/add" style="color: black;"><i class="fa fa-plus-circle fa-2x addcontact" ></i></a>
         </div>
       </div>
 

@@ -34,8 +34,15 @@
     <nav class="navbar">
       <span class="navbar-brand mb-0 h1"><%= title %></span>
     </nav>
+
+    <% if(error!='') { %>
+      <div class="alert alert-primary" role="alert">
+      <%= error.phone.msg %>
+     </div>
+    <% } %>
+
     <div id="form" class="container">
-      <form method="POST" action="/">
+      <form method="POST" action="/add">
         <div class="form-row">
           <div class="col">
             <label for="First">First name</label>

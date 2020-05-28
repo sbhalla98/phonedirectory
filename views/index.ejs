@@ -39,6 +39,40 @@
       </div>
       </form>
 
+
+
+      <table id="phonedetails" class="table table-striped">
+        <thead>
+        <tr>
+        <th>Name</th>
+        <th>Age</th>
+        <th>Hours</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+        </thead>
+  
+     
+      <%  if(records.length > 0){ %>
+     <% records.forEach(function(row){%>
+     <tr>
+      <td><%= row.firstname %></td>
+      <td><%= row.lastname %></td>
+      <td><%= row.mobile %></td>
+      <td><%= row.email %></td>
+      <td><a href="/edit/<%= row._id %>" style="color: goldenrod;">Update record</a>
+      <a href="/delete/<%= row._id %>" style="color: red;">delete record</a></td>
+    </tr>
+   
+     <% }) %> 
+     <% } else {%> 
+   
+        <div>
+          <span>No records Found :(</span>
+        </div>
+     <% } %>
+    </table>
+
     </div>
     
   </body>

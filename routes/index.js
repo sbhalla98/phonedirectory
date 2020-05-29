@@ -73,6 +73,11 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
     })
     }
     return true;
+    }),check('date').custom((value,{req})=>{
+      if(typeof(value)!='object'){
+        throw Error('Date is not in proper format');
+      }
+      return true
     })],
   function(req,res,next){
   const errors = validationResult(req);

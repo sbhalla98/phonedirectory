@@ -1,6 +1,7 @@
 var mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/phonebook",{useUnifiedTopology:true,useNewUrlParser:true})
 mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
 var conn=mongoose.connection;
 var userSchema = new mongoose.Schema({
     firstname: {
@@ -17,7 +18,8 @@ var userSchema = new mongoose.Schema({
     },
     mobile:{
         required:true,
-        type:Array
+        type:Array,
+        unique:true
     }
 });
 

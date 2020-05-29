@@ -59,6 +59,7 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
   return true;
   }),check('email').custom((value,{req})=>{
     var reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/; 
+    
     if(typeof(value)=='string'){
       if(!reg.exec(value)){
         throw Error("Email is not correct");
@@ -66,7 +67,6 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
     }
     else if(typeof(value)=='object'){
     value.forEach(function(item){
-      console.log("intside ");
       if(!reg.exec(item)){
         throw Error("Email are not correct");
       }
@@ -74,7 +74,8 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
     }
     return true;
     }),check('date').custom((value,{req})=>{
-      if(typeof(value)!='object'){
+      var dateReg =  /^((19|20)\d{2})\-(0[1-9]|1[0-2])\-(0[1-9]|1\d|2\d|3[01])$/;
+      if(!dateReg.exec(value)){
         throw Error('Date is not in proper format');
       }
       return true

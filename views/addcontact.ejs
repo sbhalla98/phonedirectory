@@ -82,7 +82,7 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="datepicker">Date Of Birth</label>
-            <input type="date" class="form-control" id="datepicker" value="<%= user.date %>" name="date">
+            <input type="date" class="form-control"  placeholder="YYYY-MM-DD" id="datepicker" value="<%= user.date %>" name="date">
           </div>
         </div>
         <div class="form-row" id="emailinput">
@@ -113,7 +113,6 @@
     <script>
       var foremail =1;
       var formobile =1;
-
 
       $('.addemail').click(function(){
              $('#emailinput').append(' <div id="div"'+foremail+' class="col-lg-12">'+

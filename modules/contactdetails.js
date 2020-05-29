@@ -1,5 +1,5 @@
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:27017/phonebook",{useUnifiedTopology:true,useNewUrlParser:true})
+mongoose.connect("mongodb+srv://mongodbadmin:vishalgupta@cluster0-zi0f8.mongodb.net/test?retryWrites=true&w=majority",{useUnifiedTopology:true,useNewUrlParser:true})
 mongoose.set('useFindAndModify', false);
 mongoose.set('useCreateIndex', true);
 var conn=mongoose.connection;

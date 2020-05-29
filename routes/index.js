@@ -43,11 +43,11 @@ router.get('/autocomplete/', function(req, res, next) {
 
 
 router.get("/add", function(req, res, next) {
-  res.render('addcontact', { title: 'MyPhoneBook',error:'',user:'' });
+  res.render('addcontact', { title: 'MyPhoneBook',error:'',user:'',errors:'' });
 });
 
 
-router.post("/add",urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('lastname','Lastname cannot be empty').trim().notEmpty(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
+router.post("/add",urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('date','Date of birth should be added').notEmpty(),check('lastname','Lastname cannot be empty').trim().notEmpty(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
   var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
   if(typeof(value)=='object'){
   value.forEach(function(item){
@@ -78,15 +78,14 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
   const errors = validationResult(req);
     if(!errors.isEmpty()){
     const user = matchedData(req);
-    res.render('addcontact',{title:'AddContact',user:user,error:errors.mapped()});
+    res.render('addcontact',{title:'AddContact',user:user,error:errors.mapped(),errors:''});
     return;
   }
   var userFirstname  =  req.body.firstname;
   var userlastname = req.body.lastname;
   var useremail = req.body.email;
-  var userdate = req.body.date;
+  var userdate = new Date(req.body.date);
   var usermobile = req.body.phone;
-  console.log(req.body.email);
   var user = new userModel({
       firstname:userFirstname,
       lastname:userlastname,
@@ -97,7 +96,7 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
   user.save().then(data=>{
       res.redirect("/");
   }).catch(err=>{
-      res.send('Something went wrong try again'+err);
+    res.render('addcontact',{title:'AddContact',user:'',errors:err,error:''});
   })
   
 })

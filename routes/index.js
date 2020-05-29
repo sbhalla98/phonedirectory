@@ -47,7 +47,7 @@ router.get("/add", function(req, res, next) {
 });
 
 
-router.post("/add",urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('lastname').isString(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
+router.post("/add",urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('lastname','Lastname cannot be empty').trim().notEmpty(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
   var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
   if(typeof(value)=='object'){
   value.forEach(function(item){
@@ -97,7 +97,7 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
   user.save().then(data=>{
       res.redirect("/");
   }).catch(err=>{
-      res.send('Something went wrong try again');
+      res.send('Something went wrong try again'+err);
   })
   
 })

@@ -28,18 +28,29 @@
         position: relative;
         top: 40%;
       }
+      .alert{
+        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+      }
     </style>
   </head>
   <body>
     <nav class="navbar">
       <span class="navbar-brand mb-0 h1"><%= title %></span>
     </nav>
-
-    <% if(error!='') { %>
-      <div class="alert alert-primary" role="alert">
-      <%= error.phone.msg %>
-     </div>
+  
+    <% if(error!=''){ %>
+    <div class="alert alert-primary" role="alert">
+    <%  if(error.phone)   { %>
+     <div><%= error.phone.msg %></div> 
     <% } %>
+    <%  if(error.email)   { %>
+    <div>  <%= error.email.msg %></div> 
+    <% } %>
+    <%  if(error.firstname)   { %>
+    <div>   <%= error.firstname.msg %></div> 
+    <% } %>
+  </div>
+  <% } %>
 
     <div id="form" class="container">
       <form method="POST" action="/add">

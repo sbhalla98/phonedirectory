@@ -44,7 +44,7 @@ router.get('/autocomplete/', function(req, res, next) {
     });
   
   });
-  
+
 
 router.get("/add", function(req, res, next) {
   res.render('addcontact', { title: 'MyPhoneBook',error:'' });
@@ -52,7 +52,12 @@ router.get("/add", function(req, res, next) {
 
 
 router.post("/add",urlencodedParser,[check('email','Please Enter valid Email Address').isEmail(),
-check('phone',"phone number is not correct").isLength({min:10})],
+check('phone',"phone number is not correct").isMobilePhone(),check('firstname').trim().custom((value,{req})=>{
+  if(value==''){
+      throw new Error('Firstname can not be empty');
+  }
+  return true;
+})],
 function(req,res,next){
   const errors = validationResult(req);
     if(!errors.isEmpty()){

@@ -65,6 +65,13 @@
       #form{
           width: 100%;
       }
+      .indetails{
+        width: 100%;
+      }
+      .namelist{
+        width: 100%;
+        margin:0;
+      }
       }
     </style>
   </head>
@@ -100,12 +107,14 @@
             <div class="col-md-3">
               <%= row.date.getDate()+1 %>/<%= row.date.getMonth()+1 %>/<%= row.date.getFullYear() %>
             </div>
-            <div class="floatright">
+            <div class="col-md-4"></div>
+            <div class="col-md-5">
               <a href="/edit/<%= row._id %>" class="btn btn-primary">Edit</a>
               <a href="/delete/<%= row._id %>" class="btn btn-danger">Remove</a>
             </div>
           </div>
-          <div class="row indetails" style="margin-top: 10%;">
+          <div class="indetails" style="margin-top: 10%;">
+            <div class="row">
             <div class="col-md-7">
               <%  if(row.email.length > 0){ %>
                 <% row.email.forEach(function(item){%>
@@ -118,6 +127,7 @@
               <div><i class="fa fa-phone fa-1x"></i> <span> <%= item %></span></div>
               <% })} %> 
             </div>
+          </div>
           </div>
         </div>
      <% }) %> 

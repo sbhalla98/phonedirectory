@@ -32,8 +32,8 @@
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
       }
       @media only screen and (max-width: 800px) {
-      body {
-          background-color: lightblue;
+      #form{
+          width: 100%;
       }
       }
     </style>
@@ -62,11 +62,11 @@
         <div class="form-row">
           <div class="col">
             <label for="First">First name</label>
-            <input type="text" class="form-control" id="First" name="firstname" placeholder="First name">
+            <input type="text" class="form-control" id="First"  value="<%= user.firstname %>" name="firstname" placeholder="First name">
           </div>
           <div class="col">
             <label for="Last">Last name</label>
-            <input type="text" class="form-control" id="Last" name="lastname" placeholder="Last name">
+            <input type="text" class="form-control" id="Last" value="<%= user.lastname %>" name="lastname" placeholder="Last name">
           </div>
         </div>
         <div class="form-row">
@@ -78,7 +78,7 @@
         <div class="form-row" id="emailinput">
           <div class="form-group col-md-11">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+            <input type="email" class="form-control" id="email" value="<%= user.email %>" name="email" placeholder="Enter email">
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addemail"></i>
@@ -88,7 +88,7 @@
         <div class="form-row" id="mobileinput">
         <div class="form-group col-md-11">
           <label for="Phone">Mobile Number</label>
-          <input type="text" class="form-control" id="Phone" name="phone" placeholder="Enter mobile number"> 
+          <input type="text" class="form-control" id="Phone" value="<%= user.phone %>" name="phone" placeholder="Enter mobile number"> 
         </div>
         <div class="col-md-1">
           <i class="fa fa-plus-circle fa-2x icon addmobile"></i>

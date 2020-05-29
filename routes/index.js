@@ -43,11 +43,11 @@ router.get('/autocomplete/', function(req, res, next) {
 
 
 router.get("/add", function(req, res, next) {
-  res.render('addcontact', { title: 'MyPhoneBook',error:'' });
+  res.render('addcontact', { title: 'MyPhoneBook',error:'',user:'' });
 });
 
 
-router.post("/add",urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
+router.post("/add",urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('lastname').isString(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
   var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
   if(typeof(value)=='object'){
   value.forEach(function(item){
@@ -77,7 +77,8 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
   function(req,res,next){
   const errors = validationResult(req);
     if(!errors.isEmpty()){
-    res.render('addcontact',{title:'AddContact',error:errors.mapped()});
+    const user = matchedData(req);
+    res.render('addcontact',{title:'AddContact',user:user,error:errors.mapped()});
     return;
   }
   var userFirstname  =  req.body.firstname;

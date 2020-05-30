@@ -182,6 +182,8 @@ router.post('/update',urlencodedParser,[check('phone','Phone number is not corre
         throw Error('Date is not in proper format');
       }
       return true
+    }),check('id').custom((value,{req})=>{
+      return true
     })],function(req,res,next){
       const errors = validationResult(req);
     if(!errors.isEmpty()){

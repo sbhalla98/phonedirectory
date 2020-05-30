@@ -78,7 +78,7 @@
         <div class="form-row">
           <div class="form-group col-md-12">
             <label for="datepicker">Date Of Birth</label>
-            <input type="date" class="form-control" placeholder="YYYY-MM-DD" name="date" value= "<%= records.date %>" id="datepicker">
+            <input type="date" class="form-control"  name="date" value= "<%= records.date %>" placeholder="YYYY-MM-DD" id="datepicker">
           </div>
         </div>
         <div class="form-row" id="emailinput">
@@ -91,6 +91,8 @@
             <% })} } else{ %> 
               <input type="email" class="form-group form-control" id="email" name="email" value="<%= records.email %>" placeholder="Enter email">
               <% } %>
+
+                
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addemail"></i>
@@ -105,7 +107,9 @@
             <input type="text" class="form-group form-control" id="Phone" name="phone" value="<%= item %>" placeholder="Enter mobile number"> 
             <% })} } else{ %> 
               <input type="text" class="form-group form-control" id="Phone" name="phone" value="<%= records.mobile %>" placeholder="Enter mobile number">
-              <% } } %>
+              <% } } else{ %>
+                <input type="text" class="form-group form-control" id="Phone" name="phone" value="<%= records.mobile %>" placeholder="Enter mobile number">
+                <% } %>
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addmobile"></i>

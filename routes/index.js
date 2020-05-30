@@ -208,7 +208,7 @@ router.post('/update',urlencodedParser,[check('phone','Phone number is not corre
     });
     update.exec(function(err,data){
     if(err){
-      throw err;
+      res.render('editcontact',{title:'EditContact',records:req,error:'',errors:err});
     }
     var string="Updated sucessfiully!!";
     res.redirect("/");

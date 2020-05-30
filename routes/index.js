@@ -183,16 +183,17 @@ router.post('/update',urlencodedParser,[check('phone','Phone number is not corre
       }
       return true
     }),check('id').custom((value,{req})=>{
+      req.body.id = req.body.id;
       return true
     })],function(req,res,next){
       const errors = validationResult(req);
     if(!errors.isEmpty()){
     const user = matchedData(req);
+    console.log(user);
     res.render('editcontact',{title:'EditContact',records:user,error:errors.mapped(),errors:''});
     return;
   }
   var id=req.body.id;
-
   var userFirstname  =  req.body.firstname;
   var userlastname = req.body.lastname;
   var useremail = req.body.email;
@@ -206,13 +207,13 @@ router.post('/update',urlencodedParser,[check('phone','Phone number is not corre
       date:userdate,
       mobile:usermobile
     });
-    update.exec(function(err,data){
-    if(err){
-      res.render('editcontact',{title:'EditContact',records:req,error:'',errors:err});
-    }
-    var string="Updated sucessfiully!!";
-    res.redirect("/");
-    });
+  
+
+    update.exec().then(data=>{
+      res.redirect("/");
+    }).catch(err=>{
+    res.render('editcontact',{title:'EditContact',records:req.body,error:'',errors:err});
+    })
 });
 
 

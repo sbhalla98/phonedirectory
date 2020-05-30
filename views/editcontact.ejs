@@ -64,7 +64,11 @@
 
     <div id="form" class="container">
       <form method="POST" action="/update">
+        <% if(records._id){ %>
         <input type="hidden" type="text" value="<%= records._id %>" name="id"><br/>
+        <% } else { %>
+        <input type="hidden" type="text" value="<%= records.id %>" name="id"><br/>
+        <% } %>
         <div class="form-row">
           <div class="col">
             <label for="First">First name</label>

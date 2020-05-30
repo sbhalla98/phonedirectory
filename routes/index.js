@@ -102,7 +102,7 @@ router.post("/add",urlencodedParser,[check('phone','Phone number is not correct'
   user.save().then(data=>{
       res.redirect("/");
   }).catch(err=>{
-    res.render('addcontact',{title:'AddContact',user:'',errors:err,error:''});
+    res.render('addcontact',{title:'AddContact',user:req,errors:err,error:''});
   })
   
 })
@@ -146,17 +146,55 @@ router.get('/edit/:id',function(req,res,next){
     if(err){
       throw err;
     } 
-    res.render('editcontact', { title: 'MyPhoneBook' ,records:data});
+    res.render('editcontact', { title: 'MyPhoneBook' ,records:data,errors:'',error:''});
     });
 });
 
-router.post('/update',function(req,res,next){
+router.post('/update',urlencodedParser,[check('phone','Phone number is not correct').isMobilePhone(),check('date','Date of birth should be added').notEmpty(),check('lastname','Lastname cannot be empty').trim().notEmpty(),check('firstname','Firstname cannot be empty').trim().notEmpty(),check('phone').custom((value,{req})=>{
+  var reg = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/; 
+  if(typeof(value)=='object'){
+  value.forEach(function(item){
+    if(item.length!=10 || !reg.exec(item)){
+      throw Error("Phone number are not correct");
+    }
+  })
+  }
+  return true;
+  }),check('email').custom((value,{req})=>{
+    var reg = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/; 
+    
+    if(typeof(value)=='string'){
+      if(!reg.exec(value)){
+        throw Error("Email is not correct");
+      }
+    }
+    else if(typeof(value)=='object'){
+    value.forEach(function(item){
+      if(!reg.exec(item)){
+        throw Error("Email are not correct");
+      }
+    })
+    }
+    return true;
+    }),check('date').custom((value,{req})=>{
+      var dateReg =  /^((19|20)\d{2})\-(0[1-9]|1[0-2])\-(0[1-9]|1\d|2\d|3[01])$/;
+      if(!dateReg.exec(value)){
+        throw Error('Date is not in proper format');
+      }
+      return true
+    })],function(req,res,next){
+      const errors = validationResult(req);
+    if(!errors.isEmpty()){
+    const user = matchedData(req);
+    res.render('editcontact',{title:'EditContact',records:user,error:errors.mapped(),errors:''});
+    return;
+  }
   var id=req.body.id;
 
   var userFirstname  =  req.body.firstname;
   var userlastname = req.body.lastname;
   var useremail = req.body.email;
-  var userdate = req.body.date;
+  var userdate = new Date(req.body.date);
   var usermobile = req.body.phone;
   console.log(userdate,req.body.date);
     var  update = userModel.findByIdAndUpdate(id,{

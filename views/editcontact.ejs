@@ -35,6 +35,33 @@
     <nav class="navbar">
       <span class="navbar-brand mb-0 h1"><%= title %></span>
     </nav>
+
+    <% if(errors!=''){ %>
+      <div class="alert alert-primary" role="alert">
+        <div>  <%= errors %></div> 
+      </div>
+    <% } %>
+    <% if(error!=''){ %>
+    <div class="alert alert-primary" role="alert">
+    <%  if(error.phone)   { %>
+     <div><%= error.phone.msg %></div> 
+    <% } %>
+    <%  if(error.email)   { %>
+    <div>  <%= error.email.msg %></div> 
+    <% } %>
+    <%  if(error.firstname)   { %>
+    <div>   <%= error.firstname.msg %></div> 
+    <% } %>
+    <%  if(error.date)   { %>
+      <div>   <%= error.date.msg %></div> 
+      <% } %>
+    <%  if(error.lastname)   { %>
+      <div>   <%= error.lastname.msg %></div> 
+      <% } %>
+  </div>
+  <% } %>
+
+
     <div id="form" class="container">
       <form method="POST" action="/update">
         <input type="hidden" type="text" value="<%= records._id %>" name="id"><br/>
@@ -57,10 +84,13 @@
         <div class="form-row" id="emailinput">
           <div class="form-group col-md-11">
             <label for="email">Email</label>
+            <%  if(typeof(records.email) == 'object'){ %>
             <%  if(records.email.length > 0){ %>
-              <% records.email.forEach(function(item){%>
+              <% records.email.forEach(function(item){ %>
             <input type="email" class="form-group form-control" id="email" name="email" value="<%= item %>" placeholder="Enter email">
-            <% })} %> 
+            <% })} } else{ %> 
+              <input type="email" class="form-group form-control" id="email" name="email" value="<%= records.email %>" placeholder="Enter email">
+              <% } %>
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addemail"></i>
@@ -69,10 +99,13 @@
         <div class="form-row" id="mobileinput">
           <div class="form-group col-md-11">
             <label for="Phone">Mobile Number</label>
+            <% if(records.mobile){ if(typeof(records.mobile) == 'object'){ %>
             <%  if(records.mobile.length > 0){ %>
               <% records.mobile.forEach(function(item){%>
             <input type="text" class="form-group form-control" id="Phone" name="phone" value="<%= item %>" placeholder="Enter mobile number"> 
-            <% })} %> 
+            <% })} } else{ %> 
+              <input type="text" class="form-group form-control" id="Phone" name="phone" value="<%= records.mobile %>" placeholder="Enter mobile number">
+              <% } } %>
           </div>
           <div class="col-md-1">
             <i class="fa fa-plus-circle fa-2x icon addmobile"></i>

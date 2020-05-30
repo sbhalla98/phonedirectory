@@ -105,7 +105,12 @@
         <div class="details <%= row.id %> card" style="display: hidden;">
           <div class="row" style="display: hidden;">
             <div class="col-md-3">
-              <%= row.date.getDate()+1 %>/<%= row.date.getMonth()+1 %>/<%= row.date.getFullYear() %>
+              <%  if(row.date)   { %>
+              <%  if(row.date.getDate())   { %>
+                <%= row.date.getDate()+1 %>/<%= row.date.getMonth()+1 %>/<%= row.date.getFullYear() %>
+               <% } else { %>
+              <%= row.date %>
+              <% } }  %>
             </div>
             <div class="col-md-4"></div>
             <div class="col-md-5">
